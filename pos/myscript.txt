@@ -1,0 +1,35 @@
+$mysql_host                 = DB_HOST;
+$mysql_username             = DB_USER;
+$mysql_password             = DB_PASSWORD;
+$mysql_database1            = DATABASE1;
+$mysql_database2            = DATABASE2;
+
+$mysqli = new mysqli($mysql_host, $mysql_username, $mysql_password) or die( mysql_error());
+
+/*  Begin Transaction   */
+$mysqli->autocommit(FALSE); 
+
+
+/*  Insert data from db1 to db2 */
+$query  =  "    INSERT INTO $mysql_database1.table1";
+
+$a  =   $mysqli->query($query); 
+
+$query  =  "    INSERT INTO $mysql_database1.table2
+            SELECT 
+                *
+            FROM $mysql_database2.table2
+            WHERE NOT EXISTS(SELECT * from $mysql_database1.table2)     
+";
+$d  =   $mysqli->query($query); 
+
+
+if ($a and $b) 
+{
+    $mysqli->commit();      
+    echo "Data synched successfully.";
+} else {        
+
+    $mysqli->rollback();        
+    echo "Data failed to synch.";
+}
