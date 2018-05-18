@@ -13,7 +13,10 @@ if (isset($error_message))
 <div class="print_hide" id="control_buttons" style="text-align:right">
 	<a href="javascript:printdoc();"><div class="btn btn-info btn-sm", id="show_print_button"><?php echo '<span class="glyphicon glyphicon-print">&nbsp</span>' . $this->lang->line('common_print'); ?></div></a>
 	<?php echo anchor("receivings", '<span class="glyphicon glyphicon-save">&nbsp</span>' . $this->lang->line('receivings_register'), array('class'=>'btn btn-info btn-sm', 'id'=>'show_sales_button')); ?>
-</div>
+	<button id="generate_barcodes" class="btn btn-default btn-sm print_hide" data-href='<?php echo site_url($controller_name."/generate_barcodes"); ?>' title='<?php echo $this->lang->line('items_generate_barcodes');?>'>
+            <span class="glyphicon glyphicon-barcode">&nbsp</span><?php echo $this->lang->line("items_generate_barcodes"); ?>
+    </button>	
+	</div>
 
 <div id="receipt_wrapper">
 	<div id="receipt_header">
@@ -181,5 +184,32 @@ if (isset($error_message))
 		<?php echo $receiving_id; ?>
 	</div>
 </div>
-
+<script>
+$('#generate_barcodes').click(function()
+    {
+       // window.open(
+       //     'index.php/items/generate_barcodes/'+table_support.selected_ids().join(':'),
+       //     '_blank' // <- This is what makes it open in a new window.
+       // );
+	 //  var count = prompt("How many copies do you want", "1");
+	 <?php
+	 $string="";
+	 foreach($cart as $line=>$item)
+	 {
+		 if(!($item['quantity']<0))
+		 {
+			 if ($string=="")
+				 $string=$item['item_id'];
+			 else
+			 $string=$string.":".$item['item_id'];
+		 }
+	 }
+	 if($string!="")
+	 {
+		 $string=$string.":2";
+	 ?>
+	   
+	 window.location.href='index.php/items/generate_barcodes/<?php echo $string."';";}?>
+    });
+</script>
 <?php $receipt=="no";//$this->load->view("partial/footer"); ?>

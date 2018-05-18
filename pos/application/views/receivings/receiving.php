@@ -20,10 +20,11 @@ if (isset($success))
 <div id="register_wrapper">
 
 <!-- Top register controls -->
-
+    
+	
 	<?php echo form_open($controller_name."/change_mode", array('id'=>'mode_form', 'class'=>'form-horizontal panel panel-default')); ?>
-		<div class="panel-body form-group">
-			<ul>
+	<div class="panel-body form-group">	        
+			   <ul>
 				<li class="pull-left first_li">
 					<label class="control-label"><?php echo $this->lang->line('receivings_mode'); ?></label>
 				</li>
@@ -55,10 +56,21 @@ if (isset($success))
 				<?php
 					}
 				}
+				
 				?>
-			</ul>
-		</div>
+				</ul>
+				<div style="margin-left:20px; margin-right:10px" class="btn btn-sm btn-success pull-right" id='prev_receipts'><span class="glyphicon glyphicon-list-alt"></span><?php //echo $this->lang->line('receivings_complete_receiving'); ?></div><span>&nbsp</span>
+				<div class='btn btn-sm btn-warning pull-right' id='generate_barcodes'><span class="glyphicon glyphicon-barcode"></span><?php //echo "Barcodes" ?></div>
+	
+		
+		
+				
+			
+	
+	
+	</div>
 	<?php echo form_close(); ?>
+	
 
 	<?php echo form_open($controller_name."/add", array('id'=>'add_item_form', 'class'=>'form-horizontal panel panel-default')); ?>
 		<div class="panel-body form-group">
@@ -340,7 +352,7 @@ if (isset($success))
 							<div class="btn btn-sm btn-danger pull-left" id='cancel_receiving_button'><span class="glyphicon glyphicon-remove">&nbsp</span><?php echo $this->lang->line('receivings_cancel_receiving'); ?></div>
 							
 							<div class="btn btn-sm btn-success pull-right" id='finish_receiving_button'><span class="glyphicon glyphicon-ok">&nbsp</span><?php echo $this->lang->line('receivings_complete_receiving'); ?></div>
-						</div>
+							</div>
 					<?php echo form_close(); ?>
 				<?php
 				}
@@ -387,10 +399,14 @@ if (isset($success))
 									</td>
 								</tr>
 							</table>
-
-							<div class='btn btn-sm btn-danger pull-left' id='cancel_receiving_button'><span class="glyphicon glyphicon-remove">&nbsp</span><?php echo $this->lang->line('receivings_cancel_receiving') ?></div>
+                            
 							
+							
+							
+							<div class='btn btn-sm btn-danger pull-left' id='cancel_receiving_button'><span class="glyphicon glyphicon-remove">&nbsp</span><?php echo $this->lang->line('receivings_cancel_receiving') ?></div>
 							<div class='btn btn-sm btn-success pull-right' id='finish_receiving_button'><span class="glyphicon glyphicon-ok">&nbsp</span><?php echo $this->lang->line('receivings_complete_receiving') ?></div>
+						    
+							
 						</div>
 					<?php echo form_close(); ?>
 				<?php
@@ -522,6 +538,47 @@ $(document).ready(function()
 	});
 
 });
+
+</script>
+<script>
+$('#generate_barcodes').click(function()
+    {
+       // window.open(
+       //     'index.php/items/generate_barcodes/'+table_support.selected_ids().join(':'),
+       //     '_blank' // <- This is what makes it open in a new window.
+       // );
+	 //  var count = prompt("How many copies do you want", "1");
+	 <?php
+	 $string="";
+	 foreach($cart as $line=>$item)
+	 {
+		 if(!($item['quantity']<0))
+		 {
+			 if ($string=="")
+				 $string=$item['item_id'];
+			 else
+			 $string=$string.":".$item['item_id'];
+		 }
+	 }
+	 if($string!="")
+	 {
+		 $string=$string.":2";
+	 ?>
+	   
+	 window.location.href='index.php/items/generate_barcodes/<?php echo $string."';";}?>
+    });
+$('#prev_receipts').click(function(){
+	<?php if(sizeof($cart)!=0)
+	echo "alert('Can not process this request since your cart is not empty');";
+	else {
+		echo("var a= prompt('Enter the receipt Number',0);");?>
+		window.location.href='index.php/receivings/receipt/'+a;<?php
+	}
+	//var id= prompt("Enter the receipt no you want to view", "0");
+	?>
+});
+	
+	
 
 </script>
 

@@ -21,7 +21,7 @@
  
 			</div>
 			<?php //$this->load->helper("vayes_helper"); ?>
-			<?//=vdebug($customer_rewards['points']);?>
+			<?//=vdebug(sizeof($cart));?>
 			
 			</div>
 			</div>
