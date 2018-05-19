@@ -1125,8 +1125,8 @@ class Reports extends Secure_Controller
 				'quantity' => to_quantity_decimals($row['items_purchased']),
 				'employee_name' => $row['employee_name'],
 				'supplier_name' => $row['supplier_name'],
-				//'total' => to_currency($row['total']),
-				'total' => round($row['total'],2),
+				'total' => to_currency($row['total']),
+				//'total' => round($row['total'],2),
 				'profit' => to_currency($row['profit']),
 				'payment_type' => $row['payment_type'],
 				'reference' => $row['reference'],
@@ -1156,8 +1156,8 @@ class Reports extends Secure_Controller
 			if ($receiving_type=='requisitions'||$row['items_purchased']==0)
 			{
 				$summary_data[$key]['quantity']= to_quantity_decimals($qty);
-				//$summary_data[$key]['total']= to_currency($amt);
-				$summary_data[$key]['total']= $amt;
+				$summary_data[$key]['total']= to_currency($amt);
+				//$summary_data[$key]['total']= $amt;
 				$cum_amt=$cum_amt+$amt;
 				
 			}
