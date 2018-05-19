@@ -59,8 +59,8 @@ if (isset($success))
 				
 				?>
 				</ul>
-				<div style="margin-left:20px; margin-right:10px" class="btn btn-sm btn-success pull-right" id='prev_receipts'><span class="glyphicon glyphicon-list-alt"></span><?php //echo $this->lang->line('receivings_complete_receiving'); ?></div><span>&nbsp</span>
-				<div class='btn btn-sm btn-warning pull-right' id='generate_barcodes'><span class="glyphicon glyphicon-barcode"></span><?php //echo "Barcodes" ?></div>
+				<div style="margin-left:20px; margin-right:10px" title="old receipts" class="btn btn-sm btn-success pull-right" id='prev_receipts'><span class="glyphicon glyphicon-list-alt"></span><?php //echo $this->lang->line('receivings_complete_receiving'); ?></div><span>&nbsp</span>
+				<div class='btn btn-sm btn-warning pull-right' title="generate_barcodes" id='generate_barcodes'><span class="glyphicon glyphicon-barcode"></span><?php //echo "Barcodes" ?></div>
 	
 		
 		
@@ -568,11 +568,16 @@ $('#generate_barcodes').click(function()
 	 window.location.href='index.php/items/generate_barcodes/<?php echo $string."';";}?>
     });
 $('#prev_receipts').click(function(){
+	
 	<?php if(sizeof($cart)!=0)
 	echo "alert('Can not process this request since your cart is not empty');";
 	else {
-		echo("var a= prompt('Enter the receipt Number',0);");?>
-		window.location.href='index.php/receivings/receipt/'+a;<?php
+		echo("var a= prompt('Enter the receipt Number','0');");
+		?>
+		if(a && a!='0')
+		window.location.href='index.php/receivings/receipt/'+a;
+		
+	<?php
 	}
 	//var id= prompt("Enter the receipt no you want to view", "0");
 	?>

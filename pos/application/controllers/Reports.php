@@ -1112,6 +1112,8 @@ class Reports extends Secure_Controller
 
 		$summary_data = array();
 		$details_data = array();
+		$cum_amt=0;
+		
 
 		$show_locations = $this->xss_clean($this->Stock_location->multiple_locations());
 
@@ -1123,7 +1125,8 @@ class Reports extends Secure_Controller
 				'quantity' => to_quantity_decimals($row['items_purchased']),
 				'employee_name' => $row['employee_name'],
 				'supplier_name' => $row['supplier_name'],
-				'total' => to_currency($row['total']),
+				//'total' => to_currency($row['total']),
+				'total' => round($row['total'],2),
 				'profit' => to_currency($row['profit']),
 				'payment_type' => $row['payment_type'],
 				'reference' => $row['reference'],
@@ -1132,7 +1135,8 @@ class Reports extends Secure_Controller
 					array('class' => 'modal-dlg print_hide', 'data-btn-delete' => $this->lang->line('common_delete'), 'data-btn-submit' => $this->lang->line('common_submit'), 'title' => $this->lang->line('receivings_update'))
 				)
 			));
-
+			$qty=0;
+			$amt=0;
 			foreach($report_data['details'][$key] as $drow)
 			{
 				$quantity_purchased = $drow['receiving_quantity'] > 1 ? to_quantity_decimals($drow['quantity_purchased']) . ' x ' . to_quantity_decimals($drow['receiving_quantity']) : to_quantity_decimals($drow['quantity_purchased']);
@@ -1141,6 +1145,21 @@ class Reports extends Secure_Controller
 					$quantity_purchased .= ' [' . $this->Stock_location->get_location_name($drow['item_location']) . ']';
 				}
 				$details_data[$row['receiving_id']][] = $this->xss_clean(array($drow['item_number'], $drow['name'], $drow['category'], $quantity_purchased, to_currency($drow['total']), $drow['discount_percent'].'%'));
+			   
+			   if($quantity_purchased > 0)
+				{
+					$qty=$qty+$quantity_purchased;
+					$amt=$amt+$drow['total'];
+				}
+			}
+			
+			if ($receiving_type=='requisitions'||$row['items_purchased']==0)
+			{
+				$summary_data[$key]['quantity']= to_quantity_decimals($qty);
+				//$summary_data[$key]['total']= to_currency($amt);
+				$summary_data[$key]['total']= $amt;
+				$cum_amt=$cum_amt+$amt;
+				
 			}
 		}
 
@@ -1153,6 +1172,8 @@ class Reports extends Secure_Controller
 			'details_data' => $details_data,
 			'overall_summary_data' => $this->xss_clean($model->getSummaryData($inputs))
 		);
+		//if ($receiving_type==requisitions)
+			$data['overall_summary_data']['total']=$data['overall_summary_data']['total']+$cum_amt;
 
 		$this->load->view('reports/tabular_details', $data);
 	}

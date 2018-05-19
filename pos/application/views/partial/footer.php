@@ -21,7 +21,7 @@
  
 			</div>
 			<?php //$this->load->helper("vayes_helper"); ?>
-			<?//=vdebug(sizeof($cart));?>
+			<?//=vdebug($overall_summary_data);?>
 			
 			</div>
 			</div>
