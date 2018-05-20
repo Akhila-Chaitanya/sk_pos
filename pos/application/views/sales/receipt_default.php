@@ -51,7 +51,8 @@
 		<div id="employee"><?php echo $this->lang->line('employees_employee').": ".$employee; ?></div>
 	</div>
 
-	<table id="receipt_items">
+	<!-- <table id="receipt_items" style="table-layout:fixed;"> -->
+	<table id="receipt_items" >
 		<tr style="border-top: solid 2px; border-bottom: solid 2px">
 			<th style="width:5%;"><?php echo "S.No" ?></th>
 			<th style="width:35%;"><?php echo "Item Name"; ?></th>
@@ -75,7 +76,8 @@
 			    <td><?php $sno++;
 				echo $sno;
 				?></td>
-				<td><?php echo ucfirst($item['name']); ?></td>
+				
+				<td><div><?php echo wordwrap(ucfirst($item['name']),40,"<br>\n"); ?></div></td>
 				<td><?php echo to_quantity_decimals($item['quantity']); ?></td>
 				<td><?php echo (to_currency($item['MRP'])); ?></td>
 				<td><?php
