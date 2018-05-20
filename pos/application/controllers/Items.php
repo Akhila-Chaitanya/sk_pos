@@ -303,12 +303,24 @@ class Items extends Secure_Controller
 		$this->load->view('items/form_count_details', $data);
 	}
 
-	public function generate_barcodes($item_ids)
+	public function generate_barcodes($item_ids_with_qty)
 	{
 		$this->load->library('barcode_lib');
-        $item_ids = explode(':', $item_ids);
-		$copies=array_pop($item_ids);
+		//$data['query']=$item_ids_with_qty;
+        $item_ids_with_qty = explode(':', $item_ids_with_qty);
+		$data['query']=$item_ids_with_qty;
+		$item_id_chunks = array_chunk($item_ids_with_qty,2);
+		//$copies=$item_id_chunks[0][1];
+		$item_ids=array();
+		$copies=array();
+		foreach($item_id_chunks as $chunk)
+		{
+			$item_ids[]= $chunk['0'];
+			$copies[]=$chunk['1'];
+		}
+      		
 		$data['copies']=$copies;
+		//$data['copies']=2;
 		$result = $this->Item->get_multiple_info($item_ids, $this->item_lib->get_item_location())->result_array();
 		$config = $this->barcode_lib->get_barcode_config();
 
@@ -333,6 +345,7 @@ class Items extends Secure_Controller
 			}
 		}
 		$data['items'] = $result;
+		//$data['item_id_chunks']=$item_id_chunks;
 
 		// display barcodes
 		//$this->load->view('barcodes/barcode_sheet', $data);

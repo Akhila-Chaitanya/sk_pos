@@ -199,14 +199,14 @@ $('#generate_barcodes').click(function()
 		 if(!($item['quantity']<0))
 		 {
 			 if ($string=="")
-				 $string=$item['item_id'];
+				 $string=$item['item_id'].":".$item['quantity'];
 			 else
-			 $string=$string.":".$item['item_id'];
+			 $string=$string.":".$item['item_id'].":".$item['quantity'];
 		 }
 	 }
 	 if($string!="")
 	 {
-		 $string=$string.":2";
+		 $string=$string;
 	 ?>
 	   
 	 window.location.href='index.php/items/generate_barcodes/<?php echo $string."';";}?>

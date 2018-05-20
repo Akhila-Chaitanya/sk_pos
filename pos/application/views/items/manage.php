@@ -9,8 +9,8 @@ $(document).ready(function()
        //     'index.php/items/generate_barcodes/'+table_support.selected_ids().join(':'),
        //     '_blank' // <- This is what makes it open in a new window.
        // );
-	 //  var count = prompt("How many copies do you want", "1");
-	   window.location.href='index.php/items/generate_barcodes/'+table_support.selected_ids().join(':')+':'+'2';
+	   var count = prompt("How many copies do you want", "1");
+	   window.location.href='index.php/items/generate_barcodes/'+table_support.selected_ids().join(':'+count+':')+':'+count;
     });
 	
 	// when any filter is clicked and the dropdown window is closed
