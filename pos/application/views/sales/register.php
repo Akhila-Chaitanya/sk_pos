@@ -390,7 +390,7 @@ if(isset($success))
 				</tr>
 				<tr>
 					<th style="width: 55%;"><?php echo $this->lang->line('sales_amount_due');?></th>
-					<th style="width: 45%; text-align: right;"><span id="sale_amount_due"><?php echo to_currency($amount_due); ?></span></th>
+					<th id ='due' style="width: 45%; text-align: right;"><span id="sale_amount_due"><?php echo to_currency($amount_due); ?></span></th>
 				</tr>
 			</table>
 
@@ -438,20 +438,29 @@ if(isset($success))
 									<?php echo form_dropdown('payment_type', $payment_options,  $selected_payment_type, array('id'=>'payment_types', 'class'=>'selectpicker show-menu-arrow', 'data-style'=>'btn-default btn-sm', 'data-width'=>'fit')); ?>
 								</td>
 							</tr>
+							
 							<tr>
 								<td><span id="amount_tendered_label"><?php echo $this->lang->line('sales_amount_tendered'); ?></span></td>
+								
 								<td>
-									<?php echo form_input(array('name'=>'amount_tendered', 'id'=>'amount_tendered', 'class'=>'form-control input-sm non-giftcard-input', 'value'=>to_currency_no_money($amount_due), 'size'=>'5', 'tabindex'=>++$tabindex)); ?>
+									<?php echo form_input(array('name'=>'amount_tendered', 'id'=>'amount_tendered', 'class'=>'form-control input-sm non-giftcard-input','autocomplete'=> 'off', 'value'=>'0', 'size'=>'5', 'tabindex'=>++$tabindex)); ?>
 									<?php echo form_input(array('name'=>'amount_tendered', 'id'=>'amount_tendered', 'class'=>'form-control input-sm giftcard-input', 'disabled' => true, 'value'=>to_currency_no_money($amount_due), 'size'=>'5', 'tabindex'=>++$tabindex)); ?>
+								</td></tr>
+								<tr><td><span id="balance_label"><?php echo "Balance Due" ?></span></td>
+								<td>	<?php echo form_input(array('name'=>'amount_balance', 'id'=>'amount_balance', 'class'=>'form-control input-sm non-giftcard-input', 'readonly' => true, 'value'=>-1*to_currency_no_money($amount_due), 'size'=>'5', 'tabindex'=>++$tabindex)); ?>
 								</td>
-							</tr>
 						</table>
 					<?php echo form_close(); ?>
+					
 
 					<div class='btn btn-sm btn-success pull-right' id='add_payment_button' tabindex='<?php echo ++$tabindex; ?>'><span class="glyphicon glyphicon-credit-card">&nbsp</span><?php echo $this->lang->line('sales_add_payment'); ?></div>
 				<?php
 				}
+				
 				?>
+				<table class="sales_table_100">
+					
+					</tr></table>
 
 				<?php
 				// Only show this part if there is at least one payment entered.
@@ -814,7 +823,8 @@ function check_payment_type()
 		$("#sale_total").html("<?php echo to_currency($cash_total); ?>");
 		$("#sale_amount_due").html("<?php echo to_currency($cash_amount_due); ?>");
 		$("#amount_tendered_label").html("<?php echo $this->lang->line('sales_amount_tendered'); ?>");
-		$("#amount_tendered:enabled").val('<?php echo to_currency_no_money($cash_amount_due); ?>');
+		//$("#amount_tendered:enabled").val('<?php echo to_currency_no_money($cash_amount_due); ?>');
+		$("#amount_tendered:enabled").val('');
 		$(".giftcard-input").attr('disabled', true);
 		$(".non-giftcard-input").attr('disabled', false);
 	}
@@ -828,6 +838,12 @@ function check_payment_type()
 		$(".non-giftcard-input").attr('disabled', false);
 	}
 }
+
+$("#amount_tendered").keyup(function(){
+	$("#amount_balance").val(-1*(<?php echo $total; ?>-$("#amount_tendered").val()));
+});
+$(document).ready(function(){
+$("#amount_tendered").val('');});
 
 </script>
 
