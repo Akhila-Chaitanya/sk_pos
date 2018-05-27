@@ -438,21 +438,23 @@
 	{
 		<?php
 		//Disable Quantities for item editing only
-		if($item_info->name!=""){
+		if($item_info->name!="")
+		//if($myid==100)
+		{
 		if($myid==1)
 		{
-			 echo("$(\"#quantity_2\").attr('disabled', true);");
-			 echo("$(\"#quantity_3\").attr('disabled', true);");
+			 echo("$(\"#quantity_2\").attr('readonly', true);");
+			 echo("$(\"#quantity_3\").attr('readonly', true);");
 		 }
 		 if($myid==2)
 		 {
-			 echo("$(\"#quantity_1\").attr('disabled', true);");
-			 echo("$(\"#quantity_3\").attr('disabled', true);");
+			 echo("$(\"#quantity_1\").attr('readonly', true);");
+			 echo("$(\"#quantity_3\").attr('readonly', true);");
 		 }
 		 if($myid==3)
 		 {
-			 echo("$(\"#quantity_2\").attr('disabled', true);");
-			 echo("$(\"#quantity_1\").attr('disabled', true);");
+			 echo("$(\"#quantity_2\").attr('readonly', true);");
+			 echo("$(\"#quantity_1\").attr('readonly', true);");
 		 }
 		}
 		

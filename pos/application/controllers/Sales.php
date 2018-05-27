@@ -63,6 +63,8 @@ class Sales extends Secure_Controller
 	{
 		$search = $this->input->get('search');
 		$limit = $this->input->get('limit');
+		$limit2=0;
+		$offset2=0;
 		$offset = $this->input->get('offset');
 		$sort = $this->input->get('sort');
 		$order = $this->input->get('order');
@@ -82,9 +84,10 @@ class Sales extends Secure_Controller
 		$filters = array_merge($filters, $filledup);
 
 		$sales = $this->Sale->search($search, $filters, $limit, $offset, $sort, $order);
+		$sales2 = $this->Sale->search($search, $filters, $limit2, $offset2, $sort, $order);
 		$total_rows = $this->Sale->get_found_rows($search, $filters);
 		$payments = $this->Sale->get_payments_summary($search, $filters);
-		$payment_summary = $this->xss_clean(get_sales_manage_payments_summary($payments, $sales, $this));
+		$payment_summary = $this->xss_clean(get_sales_manage_payments_summary($payments, $sales2, $this));
 
 		$data_rows = array();
 		foreach($sales->result() as $sale)
