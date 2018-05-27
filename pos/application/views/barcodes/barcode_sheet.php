@@ -101,8 +101,8 @@ function printdoc2()
 	
 }
 $(document).ready(function(){
-	<?php if (sizeof($query)>=0)
-		echo "printdoc2();";?>
+	<?php //if (sizeof($query)>=0)
+		//echo "printdoc2();";?>
 });
 
 </script>
