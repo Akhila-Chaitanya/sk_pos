@@ -77,7 +77,7 @@
 				echo $sno;
 				?></td>
 				
-				<td><div><?php echo wordwrap(ucfirst($item['name']),40,"<br>\n"); ?></div></td>
+				<td><div><?php echo wordwrap(ucfirst($item['name']),20,"<br>\n"); ?></div></td>
 				<td><?php echo to_quantity_decimals($item['quantity']); ?></td>
 				<td><?php echo (to_currency($item['MRP'])); ?></td>
 				<td><?php
