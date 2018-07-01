@@ -132,7 +132,7 @@
 			</div>
 		</div>
 		</div>
-		<div id="dummy" style="height:70px"></div>
+		<div id="dummy" style="height:70px" class="print_hide"></div>
          <script type="text/javascript">
         $(document).ready(function() {
         $('.blockUI').remove();

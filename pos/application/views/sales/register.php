@@ -447,7 +447,7 @@ if(isset($success))
 									<?php echo form_input(array('name'=>'amount_tendered', 'id'=>'amount_tendered', 'class'=>'form-control input-sm giftcard-input', 'disabled' => true, 'value'=>to_currency_no_money($amount_due), 'size'=>'5', 'tabindex'=>++$tabindex)); ?>
 								</td></tr>
 								<tr><td><span id="balance_label"><?php echo "Balance Due" ?></span></td>
-								<td>	<?php echo form_input(array('name'=>'amount_balance', 'id'=>'amount_balance', 'class'=>'form-control input-sm non-giftcard-input', 'readonly' => true, 'value'=>-1*to_currency_no_money($amount_due), 'size'=>'5', 'tabindex'=>++$tabindex)); ?>
+								<td>	<?php echo form_input(array('name'=>'amount_balance', 'id'=>'amount_balance', 'class'=>'form-control input-sm non-giftcard-input', 'readonly' => true, 'value'=>round(-1*$amount_due), 'size'=>'5', 'tabindex'=>++$tabindex)); ?>
 								</td>
 						</table>
 					<?php echo form_close(); ?>
@@ -840,10 +840,9 @@ function check_payment_type()
 }
 
 $("#amount_tendered").keyup(function(){
-	$("#amount_balance").val(-1*(<?php echo $total; ?>-$("#amount_tendered").val()));
+	$("#amount_balance").val((-1*(<?php echo $total; ?>-$("#amount_tendered").val())).toFixed(2));
 });
-$(document).ready(function(){
-$("#amount_tendered").val('');});
+
 
 </script>
 
