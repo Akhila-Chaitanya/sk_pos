@@ -115,10 +115,12 @@ if (isset($success))
 		<thead>
 			<tr>
 				<th style="width:5%;"><?php echo $this->lang->line('common_delete'); ?></th>
-				<th style="width:45%;"><?php echo $this->lang->line('receivings_item_name'); ?></th>
+				<th style="width:30%;"><?php echo $this->lang->line('receivings_item_name'); ?></th>
+				<th style="width:10%;">Sale Price</th>
+				<th style="width:10%;">MRP</th>
 				<th style="width:10%;"><?php echo $this->lang->line('receivings_cost'); ?></th>
 				<th style="width:10%;"><?php echo $this->lang->line('receivings_quantity'); ?></th>
-				<th style="width:5%;"></th>
+				<th style="width:5%;"> </th>
 				<th style="width:10%;"><?php echo $this->lang->line('receivings_discount'); ?></th>
 				<th style="width:10%;"><?php echo $this->lang->line('receivings_total'); ?></th>
 				<th style="width:5%;"><?php echo $this->lang->line('receivings_update'); ?></th>
@@ -131,7 +133,7 @@ if (isset($success))
 			{
 			?>
 				<tr>
-					<td colspan='8'>
+					<td colspan='10'>
 						<div class='alert alert-dismissible alert-info'><?php echo $this->lang->line('sales_no_items_in_cart'); ?></div>
 					</td>
 				</tr>
@@ -149,7 +151,12 @@ if (isset($success))
 								<?php echo $item['name']; ?><br /> <?php echo '[' . to_quantity_decimals($item['in_stock']) . ' in ' . $item['stock_name'] . ']'; ?>
 								<?php echo form_hidden('location', $item['item_location']); ?>
 							</td>
-
+							<td style="align:center;">
+								<?php echo $item['sale_price'];?>
+							</td>
+							<td style="align:center;">
+								<?php echo $item['MRP'];?>
+							</td>
 							<?php 
 							if ($items_module_allowed && $mode !='requisition')
 							{
@@ -232,7 +239,7 @@ if (isset($success))
 								}
 								?>
 							</td>
-							<td colspan='6'></td>
+							<td colspan='8'></td>
 						</tr>
 					<?php echo form_close(); ?>
 			<?php

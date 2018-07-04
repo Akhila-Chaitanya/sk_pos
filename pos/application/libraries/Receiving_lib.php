@@ -209,7 +209,8 @@ class Receiving_lib
 		$item_info = $this->CI->Item->get_info($item_id,$item_location);
 		//array records are identified by $insertkey and item_id is just another field.
 		$price = $price != NULL ? $price : $item_info->cost_price;
-		$sale_price= $item_info->unit_price*(1-$iteminfo->custom1/100);
+		$sale_price= $item_info->unit_price*(1-(floatval($item_info->custom1)/100));
+		//$sale_price= ($iteminfo->custom1);
 		$item = array($insertkey => array(
 				'item_id' => $item_id,
 				'item_location' => $item_location,
@@ -227,7 +228,8 @@ class Receiving_lib
 				'receiving_quantity' => $receiving_quantity!=NULL ? $receiving_quantity : $item_info->receiving_quantity,
 				'total' => $this->get_item_total($quantity, $price, $discount, $receiving_quantity),
 				'sale_price'=>$sale_price,
-				'total_sale_price'=>$sale_price*$quantity
+				'total_sale_price'=>$sale_price*$quantity,
+				'MRP'=>$item_info->custom3,
 			)
 		);
 
