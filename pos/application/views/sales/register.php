@@ -113,6 +113,7 @@ if(isset($success))
 				<th style="width: 10%;"><?php echo "Exp Date"; ?></th>
 				<th style="width: 10%;"><?php echo $this->lang->line('sales_price'); ?></th>
 				<th style="width: 10%;"><?php echo $this->lang->line('sales_quantity'); ?></th>
+				<th style="width: 10%;"><?php echo "Units";?>
 				<th style="width: 10%;"><?php echo $this->lang->line('sales_discount'); ?></th>
 				<th style="width: 10%;"><?php echo $this->lang->line('sales_total'); ?></th>
 				<th style="width: 5%;"><?php echo $this->lang->line('sales_update'); ?></th>
@@ -125,7 +126,7 @@ if(isset($success))
 			{
 			?>
 				<tr>
-					<td colspan='9'>
+					<td colspan='10'>
 						<div class='alert alert-dismissible alert-info'><?php echo $this->lang->line('sales_no_items_in_cart'); ?></div>
 					</td>
 				</tr>
@@ -171,14 +172,25 @@ if(isset($success))
 								<?php
 								if($item['is_serialized']==1)
 								{
-									echo to_quantity_decimals($item['quantity']);
-									echo form_hidden('quantity', $item['quantity']);
+									echo to_quantity_decimals($item['disp_qty']);
+									echo form_hidden('quantity', $item['disp_qty']);
 								}
 								else
 								{								
-									echo form_input(array('name'=>'quantity', 'class'=>'form-control input-sm', 'value'=>to_quantity_decimals($item['quantity']), 'tabindex'=>++$tabindex));
+									echo form_input(array('name'=>'quantity', 'class'=>'form-control input-sm', 'value'=>to_quantity_decimals($item['disp_qty']), 'tabindex'=>++$tabindex));
 								}
+								
 								?>
+							</td>
+							<td><?php
+							   if($item['item_type']=='2')
+							  // echo form_dropdown('units',array('kg'=>'Kgs','grms'=>'Grams'));
+							   echo form_dropdown('units', array('0'=>"Kilos",'1'=>"Grams"), $item['units'], array('id'=>'units', 'class'=>'form-control input-sm', 'data-style'=>'btn-default btn-sm', 'data-width'=>'auto', 'tabindex'=>++$tabindex, 'onchange'=>'this.form.submit()'));
+							   else if($item ['item_type']=='3')
+								   echo form_dropdown('units', array('0'=>"Ltrs",'1'=>"ml"), $item['units'], array('id'=>'units', 'class'=>'form_control input-sm', 'data-style'=>'btn-default btn-sm', 'data-width'=>'auto', 'tabindex'=>++$tabindex, 'onchange'=>'this.form.submit()'));
+							   else							   
+								   echo "Nos";
+						   ?>
 							</td>
 
 							<td><?php echo form_input(array('name'=>'discount', 'class'=>'form-control input-sm', 'value'=>to_decimals($item['discount'], 0), 'tabindex'=>++$tabindex));?></td>
@@ -225,7 +237,7 @@ if(isset($success))
 								}
 								?>
 							</td>
-							<td colspan='5' style="text-align: left;">
+							<td colspan='6' style="text-align: left;">
 								<?php
 								if($item['is_serialized']==1)
 								{

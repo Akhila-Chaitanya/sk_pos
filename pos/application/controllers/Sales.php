@@ -374,6 +374,7 @@ class Sales extends Secure_Controller
 
 			// Add item kit items to order
 			$stock_warning = NULL;
+			
 			if(!$this->sale_lib->add_item_kit($item_id_or_number_or_item_kit_or_receipt, $item_location, $discount, $price_option, $kit_print_option, $stock_warning))
 			{
 				$data['error'] = $this->lang->line('sales_unable_to_add_item');
@@ -408,13 +409,14 @@ class Sales extends Secure_Controller
 		$description = $this->input->post('description');
 		$serialnumber = $this->input->post('serialnumber');
 		$price = parse_decimals($this->input->post('price'));
-		$quantity = parse_decimals($this->input->post('quantity'));
+		$quantity = ($this->input->post('units')=='1')?parse_decimals(floatval($this->input->post('quantity'))/1000):parse_decimals($this->input->post('quantity'));
+		$units= $this->input->post('units');
 		$discount = parse_decimals($this->input->post('discount'));
 		$item_location = $this->input->post('location');
 
 		if($this->form_validation->run() != FALSE)
 		{
-			$this->sale_lib->edit_item($item_id, $description, $serialnumber, $quantity, $discount, $price);
+			$this->sale_lib->edit_item($item_id, $description, $serialnumber, $quantity, $discount, $price, $units);
 		}
 		else
 		{

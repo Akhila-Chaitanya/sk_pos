@@ -665,11 +665,14 @@ class Sale_lib
 					'line' => $insertkey,
 					'name' => $item_info->name,
 					'item_number' => $item_info->item_number,
+					'item_type'=> $item_info->item_type,
 					'description' => $description != NULL ? $description : $item_info->description,
 					'serialnumber' => $serialnumber != NULL ? $serialnumber : '',
 					'allow_alt_description' => $item_info->allow_alt_description,
 					'is_serialized' => $item_info->is_serialized,
 					'quantity' => $quantity,
+					'units' => '0',
+					'disp_qty'=> $quantity,
 					//'discount' => $discount<$item_info->custom1?$item_info->custom1:$discount,
 					'discount' => $discount,
 					'in_stock' => $this->CI->Item_quantity->get_item_quantity($item_id, $item_location)->quantity,
@@ -758,7 +761,7 @@ class Sale_lib
 		return -1;
 	}
 
-	public function edit_item($line, $description, $serialnumber, $quantity, $discount, $price)
+	public function edit_item($line, $description, $serialnumber, $quantity, $discount, $price, $units)
 	{
 		$items = $this->get_cart();
 		if(isset($items[$line]))
@@ -767,6 +770,8 @@ class Sale_lib
 			$line['description'] = $description;
 			$line['serialnumber'] = $serialnumber;
 			$line['quantity'] = $quantity;
+			$line['units']=$units;
+			$line['disp_qty']= $units==1?floatval($quantity)*1000:$quantity;
 			$line['discount'] = $discount;
 			$line['price'] = $price;
 			$line['total'] = $this->get_item_total($quantity, $price, $discount);
@@ -796,7 +801,7 @@ class Sale_lib
 
 		foreach($this->CI->Sale->get_sale_items_ordered($sale_id)->result() as $row)
 		{
-			$this->add_item($row->item_id, -$row->quantity_purchased, $row->item_location, $row->discount_percent, $row->item_unit_price, $row->description, $row->serialnumber, TRUE, $row->print_option, $row->print_option);
+			$this->add_item($row->item_id, -1*floatval($row->quantity_purchased), $row->item_location, $row->discount_percent, $row->item_unit_price, $row->description, $row->serialnumber, TRUE, $row->print_option, $row->print_option);
 		}
 
 		$this->set_customer($this->CI->Sale->get_customer($sale_id)->person_id);

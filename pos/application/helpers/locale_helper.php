@@ -90,7 +90,17 @@ function to_tax_decimals($number)
 
 function to_quantity_decimals($number)
 {
-    return to_decimals($number, 'quantity_decimals');
+    if (strstr($number,'.000')!=FALSE)
+	{	
+	return(round($number,0));
+	}
+	else if (strstr($number,'.')!=FALSE)
+		return (rtrim($number,'0'));
+	
+	else
+		return $number;
+    
+	//return to_decimals($number, 'quantity_decimals');
 }
 
 function to_decimals($number, $decimals, $type=\NumberFormatter::DECIMAL)

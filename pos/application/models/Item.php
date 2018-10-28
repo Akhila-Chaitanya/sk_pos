@@ -5,6 +5,8 @@ define('HAS_NO_STOCK', 1);
 
 define('ITEM', 0);
 define('ITEM_KIT', 1);
+define('ITEM_KGS',2);
+define('ITEM_LTRS',3);
 
 define('PRINT_ALL', 0);
 define('PRINT_PRICED', 1);
@@ -443,7 +445,7 @@ class Item extends CI_Model
 		$this->db->select('item_id, name');
 		$this->db->from('items');
 		$this->db->where('deleted', $filters['is_deleted']);
-		$this->db->where("item_type = " . ITEM); // standard, exclude kit items since kits will be picked up later
+		$this->db->where("item_type != " . ITEM_KIT); // standard, exclude kit items since kits will be picked up later
 		$this->db->like('name', $search);
 		$this->db->order_by('name', 'asc');
 		foreach($this->db->get()->result() as $row)

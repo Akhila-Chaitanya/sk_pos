@@ -72,7 +72,8 @@
 		</div>
 
 		<div class="form-group form-group-sm">
-			<?php echo form_label($this->lang->line('items_type'), 'item_type', !empty($basic_version) ? array('class'=>'required control-label col-xs-3') : array('class'=>'control-label col-xs-3')); ?>
+			<?php //echo form_label($this->lang->line('items_type'), 'item_type', !empty($basic_version) ? array('class'=>'required control-label col-xs-3') : array('class'=>'control-label col-xs-3')); 
+			echo form_label("Quantity Units", 'item_type', !empty($basic_version) ? array('class'=>'required control-label col-xs-3') : array('class'=>'control-label col-xs-3'));?>
 			<div class="col-xs-8">
 				<label class="radio-inline">
 					<?php echo form_radio(array(
@@ -81,16 +82,26 @@
 							'id'=>'item_type',
 							'value'=>0,
 							'checked'=>$item_info->item_type == ITEM)
-					); ?> <?php echo $this->lang->line('items_standard'); ?>
+					); ?> <?php //echo $this->lang->line('items_standard'); 
+					echo "Nos"?>
 				</label>
 				<label class="radio-inline">
 					<?php echo form_radio(array(
 							'name'=>'item_type',
 							'type'=>'radio',
 							'id'=>'item_type',
-							'value'=>1,
-							'checked'=>$item_info->item_type == ITEM_KIT)
-					); ?> <?php echo $this->lang->line('items_kit'); ?>
+							'value'=>2,
+							'checked'=>$item_info->item_type == ITEM_KGS)
+					); ?> <?php echo "Loose-Kgs"; ?>
+				</label>
+				<label class="radio-inline">
+					<?php echo form_radio(array(
+							'name'=>'item_type',
+							'type'=>'radio',
+							'id'=>'item_type',
+							'value'=>3,
+							'checked'=>$item_info->item_type == ITEM_LTRS)
+					); ?> <?php echo "Loose-Ltrs"; ?>
 				</label>
 			</div>
 		</div>

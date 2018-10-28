@@ -137,7 +137,8 @@ function display_stock(location_id)
             tr.appendChild(td);
             
             td = document.createElement('td');
-            td.appendChild(document.createTextNode(parseFloat(data['trans_inventory']).toFixed(<?php echo quantity_decimals(); ?>)));
+            td.appendChild(document.createTextNode(parseFloat(data['trans_inventory']).toFixed(<?php //echo quantity_decimals(); 
+			echo '3'?>)));
 			td.setAttribute("style", "text-align:center");
             tr.appendChild(td);
             
