@@ -628,7 +628,9 @@ class Sale_lib
 				if(!$item_info->is_serialized)
 				{
 					$quantity = bcadd($quantity, $items[$updatekey]['quantity']);
+					
 				}
+				
 			}
 		}
 
@@ -698,6 +700,10 @@ class Sale_lib
 			$line['total'] = $total;
 			$line['discounted_total'] = $discounted_total;
 			$line['profit'] = $discounted_total-($item_info->cost_price*$quantity);
+			if ($line['units']==1)
+				$line ['disp_qty']=$quantity*1000;
+			else
+				$line['disp_qty']=$quantity;
 		}
 
 		$this->set_cart($items);
@@ -771,7 +777,10 @@ class Sale_lib
 			$line['serialnumber'] = $serialnumber;
 			$line['quantity'] = $quantity;
 			$line['units']=$units;
-			$line['disp_qty']= $units==1?floatval($quantity)*1000:$quantity;
+			if($line['units']==0)
+			$line['disp_qty']= $quantity;
+		    else
+			$line['disp_qty']=$quantity*1000;
 			$line['discount'] = $discount;
 			$line['price'] = $price;
 			$line['total'] = $this->get_item_total($quantity, $price, $discount);

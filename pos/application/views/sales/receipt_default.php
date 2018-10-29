@@ -1,5 +1,6 @@
 <?php //C:\wamp\www\pos\pos\application\views\sales?>
-<div id="receipt_wrapper" style="font-size:<?php echo $this->config->item('receipt_font_size');?>px">
+<center>
+<div id="receipt_wrapper" style="font-size:<?php echo $this->config->item('receipt_font_size');?>px; width:73mm">
 	<div id="receipt_header">
 		<?php
 		if($this->config->item('company_logo') != '')
@@ -54,11 +55,11 @@
 	<!-- <table id="receipt_items" style="table-layout:fixed;"> -->
 	<table id="receipt_items" >
 		<tr style="border-top: solid 2px; border-bottom: solid 2px">
-			<th style="width:5%;"><?php echo "S.No" ?></th>
-			<th style="width:35%;"><?php echo "Item Name"; ?></th>
-			<th style="width:10%;"><?php echo $this->lang->line('sales_quantity'); ?></th>
-			<th style="width:15%;"><?php echo"MRP"; ?>
-			<th style="width:15%"><?php echo "Special<br>Price";?>
+			<th style="width:5%;" ><?php echo "S.No" ?></th>
+			<th style="text-align:center; width:35%;"><?php echo "Item Name"; ?></th>
+			<th style="text-align:center; width:10%;"><?php echo $this->lang->line('sales_quantity'); ?></th>
+			<th style="text-align:center; width:15%;"><?php echo"MRP"; ?>
+			<th style="text-align:center; width:15%;"><?php echo "Special<br>Price";?>
 			<th style="text-align:right; width:20%" class="total-value"><?php echo "Amount";?></th>
 		</tr>
 		<?php
@@ -78,7 +79,20 @@
 				?></td>
 				
 				<td><div><?php echo wordwrap(ucfirst($item['name']),20,"<br>\n"); ?></div></td>
-				<td><?php echo to_quantity_decimals($item['quantity']); ?></td>
+				<td><?php echo to_quantity_decimals($item['disp_qty']); 
+						  if($item['item_type']=='2')
+						  {
+							  if ($item['units']==0)
+									echo "Kg";
+								else echo "Gr";
+						  }
+						  else if($item['item_type']=='3')
+						  {
+							  if ($item['units']==0)
+									echo "L";
+								else echo "ml";
+						  }
+				?></td>
 				<td><?php echo (to_currency($item['MRP'])); ?></td>
 				<td><?php
 				if($item['discount'] > 0)
@@ -135,12 +149,12 @@
 
 		<?php $border = (!$this->config->item('receipt_show_taxes') && !($this->config->item('receipt_show_total_discount') && $discount > 0)); ?>
 		<tr style='border-top:2px solid #000000;'>
-			<td colspan="3" style="text-align:right;<?php echo $border? 'border-top: 2px solid black;' :''; ?>"> <h3>Net Amount:</h3> </td>
-			<td style="text-align:right;<?php //echo $border? 'border-top: 2px solid black;' :''; ?>"><h3><?php echo to_currency($total); ?></h3></td>
+			<td colspan="3" style="text-align:right;<?php echo $border? 'border-top: 2px solid black;' :''; ?>"> <h5>Net Amount:</h5> </td>
+			<td style="text-align:right;<?php //echo $border? 'border-top: 2px solid black;' :''; ?>"><h5><?php echo to_currency($total); ?></h5></td>
 		</tr>
 		<tr>
-			<td colspan="3" style="text-align:right;<?php //echo $border? 'border-top: 2px solid black;' :''; ?>"> <h3>Your Savings:</h3> </td>
-			<td style="text-align:right;<?php //echo $border? 'border-top: 2px solid black;' :''; ?>"><h3><?php echo to_currency($total_mrp-$total); ?></h3></td>
+			<td colspan="3" style="text-align:right;<?php //echo $border? 'border-top: 2px solid black;' :''; ?>"> <h5>Your Savings:</h5> </td>
+			<td style="text-align:right;<?php //echo $border? 'border-top: 2px solid black;' :''; ?>"><h5><?php echo to_currency($total_mrp-$total); ?></h5></td>
 		</tr>
 
 
@@ -198,8 +212,9 @@
 		<?php echo nl2br($this->config->item('return_policy')); ?>
 	</div>
 
-	<div id="barcode">
+	<div id="barcode" align="left">
 		<img src='data:image/png;base64,<?php echo $barcode; ?>' /><br>
 		<?php echo $sale_id; ?>
 	</div>
 </div>
+</center>
