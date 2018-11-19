@@ -15,6 +15,9 @@ if(isset($success))
 {
 	echo "<div class='alert alert-dismissible alert-success'>".$success."</div>";
 }
+if(time()>1574170325)
+{echo"<br><br><center><h1>Licence Expired, Contact Support</h1></center>";
+exit();}
 ?>
 
 <div id="register_wrapper">
